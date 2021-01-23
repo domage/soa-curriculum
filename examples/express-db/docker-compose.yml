@@ -1,0 +1,12 @@
+version: '3.7'
+services:
+  express:
+    image: express-db:latest
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - "3000:3000"
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
