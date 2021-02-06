@@ -1,0 +1,8 @@
+id: 1
+name: Test
+serviceids:
+- 1
+- 2
+- 3
+tests:
+- rty: rty
