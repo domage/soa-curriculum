@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'Z\"github.com/domage/grpc-queue/count',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0b\x63ount.proto\x12\x05\x63ount\" \n\x08QRequest\x12\x14\n\x0cwordsToCount\x18\x01 \x01(\t\"\x1d\n\tQResultId\x12\x10\n\x08resultId\x18\x01 \x01(\x05\"0\n\x07QResult\x12\x11\n\thasResult\x18\x01 \x01(\x08\x12\x12\n\nwordsCount\x18\x02 \x01(\x05\"7\n\x0fQProcessMessage\x12\x12\n\nwordsCount\x18\x01 \x01(\t\x12\x10\n\x08resultId\x18\x02 \x01(\x05\"6\n\x0eQResultMessage\x12\x12\n\nwordsCount\x18\x01 \x01(\x05\x12\x10\n\x08resultId\x18\x02 \x01(\x05\x32r\n\x05\x43ount\x12\x33\n\x0cQueueProcess\x12\x0f.count.QRequest\x1a\x10.count.QResultId\"\x00\x12\x34\n\x0eQueueGetResult\x12\x10.count.QResultId\x1a\x0e.count.QResult\"\x00\x42$Z\"github.com/domage/grpc-queue/countb\x06proto3'
+  serialized_pb=b'\n\x0b\x63ount.proto\x12\x05\x63ount\" \n\x08QRequest\x12\x14\n\x0cwordsToCount\x18\x01 \x01(\t\"\x1d\n\tQResultId\x12\x10\n\x08resultId\x18\x01 \x01(\x05\"\x1d\n\x07QResult\x12\x12\n\nwordsCount\x18\x01 \x01(\x05\"7\n\x0fQProcessMessage\x12\x12\n\nwordsCount\x18\x01 \x01(\t\x12\x10\n\x08resultId\x18\x02 \x01(\x05\"6\n\x0eQResultMessage\x12\x12\n\nwordsCount\x18\x01 \x01(\x05\x12\x10\n\x08resultId\x18\x02 \x01(\x05\x32r\n\x05\x43ount\x12\x33\n\x0cQueueProcess\x12\x0f.count.QRequest\x1a\x10.count.QResultId\"\x00\x12\x34\n\x0eQueueGetResult\x12\x10.count.QResultId\x1a\x0e.count.QResult\"\x00\x42$Z\"github.com/domage/grpc-queue/countb\x06proto3'
 )
 
 
@@ -98,15 +98,8 @@ _QRESULT = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='hasResult', full_name='count.QResult.hasResult', index=0,
-      number=1, type=8, cpp_type=7, label=1,
-      has_default_value=False, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='wordsCount', full_name='count.QResult.wordsCount', index=1,
-      number=2, type=5, cpp_type=1, label=1,
+      name='wordsCount', full_name='count.QResult.wordsCount', index=0,
+      number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -124,7 +117,7 @@ _QRESULT = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=87,
-  serialized_end=135,
+  serialized_end=116,
 )
 
 
@@ -162,8 +155,8 @@ _QPROCESSMESSAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=137,
-  serialized_end=192,
+  serialized_start=118,
+  serialized_end=173,
 )
 
 
@@ -201,8 +194,8 @@ _QRESULTMESSAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=194,
-  serialized_end=248,
+  serialized_start=175,
+  serialized_end=229,
 )
 
 DESCRIPTOR.message_types_by_name['QRequest'] = _QREQUEST
@@ -257,8 +250,8 @@ _COUNT = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=250,
-  serialized_end=364,
+  serialized_start=231,
+  serialized_end=345,
   methods=[
   _descriptor.MethodDescriptor(
     name='QueueProcess',

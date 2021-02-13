@@ -25,21 +25,20 @@ namespace Count {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Cgtjb3VudC5wcm90bxIFY291bnQiIAoIUVJlcXVlc3QSFAoMd29yZHNUb0Nv",
-            "dW50GAEgASgJIh0KCVFSZXN1bHRJZBIQCghyZXN1bHRJZBgBIAEoBSIwCgdR",
-            "UmVzdWx0EhEKCWhhc1Jlc3VsdBgBIAEoCBISCgp3b3Jkc0NvdW50GAIgASgF",
-            "IjcKD1FQcm9jZXNzTWVzc2FnZRISCgp3b3Jkc0NvdW50GAEgASgJEhAKCHJl",
-            "c3VsdElkGAIgASgFIjYKDlFSZXN1bHRNZXNzYWdlEhIKCndvcmRzQ291bnQY",
-            "ASABKAUSEAoIcmVzdWx0SWQYAiABKAUycgoFQ291bnQSMwoMUXVldWVQcm9j",
-            "ZXNzEg8uY291bnQuUVJlcXVlc3QaEC5jb3VudC5RUmVzdWx0SWQiABI0Cg5R",
-            "dWV1ZUdldFJlc3VsdBIQLmNvdW50LlFSZXN1bHRJZBoOLmNvdW50LlFSZXN1",
-            "bHQiAEIkWiJnaXRodWIuY29tL2RvbWFnZS9ncnBjLXF1ZXVlL2NvdW50YgZw",
-            "cm90bzM="));
+            "dW50GAEgASgJIh0KCVFSZXN1bHRJZBIQCghyZXN1bHRJZBgBIAEoBSIdCgdR",
+            "UmVzdWx0EhIKCndvcmRzQ291bnQYASABKAUiNwoPUVByb2Nlc3NNZXNzYWdl",
+            "EhIKCndvcmRzQ291bnQYASABKAkSEAoIcmVzdWx0SWQYAiABKAUiNgoOUVJl",
+            "c3VsdE1lc3NhZ2USEgoKd29yZHNDb3VudBgBIAEoBRIQCghyZXN1bHRJZBgC",
+            "IAEoBTJyCgVDb3VudBIzCgxRdWV1ZVByb2Nlc3MSDy5jb3VudC5RUmVxdWVz",
+            "dBoQLmNvdW50LlFSZXN1bHRJZCIAEjQKDlF1ZXVlR2V0UmVzdWx0EhAuY291",
+            "bnQuUVJlc3VsdElkGg4uY291bnQuUVJlc3VsdCIAQiRaImdpdGh1Yi5jb20v",
+            "ZG9tYWdlL2dycGMtcXVldWUvY291bnRiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Count.QRequest), global::Count.QRequest.Parser, new[]{ "WordsToCount" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Count.QResultId), global::Count.QResultId.Parser, new[]{ "ResultId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Count.QResult), global::Count.QResult.Parser, new[]{ "HasResult", "WordsCount" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Count.QResult), global::Count.QResult.Parser, new[]{ "WordsCount" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Count.QProcessMessage), global::Count.QProcessMessage.Parser, new[]{ "WordsCount", "ResultId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Count.QResultMessage), global::Count.QResultMessage.Parser, new[]{ "WordsCount", "ResultId" }, null, null, null, null)
           }));
@@ -48,6 +47,9 @@ namespace Count {
 
   }
   #region Messages
+  /// <summary>
+  /// Запрос, содержащий строку, число слов в которой будем считать
+  /// </summary>
   public sealed partial class QRequest : pb::IMessage<QRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -220,6 +222,9 @@ namespace Count {
 
   }
 
+  /// <summary>
+  /// Идентификатор ответа, по которому можно получить результат подсчета, когда он будет доступен
+  /// </summary>
   public sealed partial class QResultId : pb::IMessage<QResultId>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -392,6 +397,10 @@ namespace Count {
 
   }
 
+  /// <summary>
+  /// Результат подсчета. 
+  /// Если результат доступен, то wordsCount содержит число слов в переданной строке
+  /// </summary>
   public sealed partial class QResult : pb::IMessage<QResult>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -421,7 +430,6 @@ namespace Count {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public QResult(QResult other) : this() {
-      hasResult_ = other.hasResult_;
       wordsCount_ = other.wordsCount_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -431,19 +439,8 @@ namespace Count {
       return new QResult(this);
     }
 
-    /// <summary>Field number for the "hasResult" field.</summary>
-    public const int HasResultFieldNumber = 1;
-    private bool hasResult_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasResult {
-      get { return hasResult_; }
-      set {
-        hasResult_ = value;
-      }
-    }
-
     /// <summary>Field number for the "wordsCount" field.</summary>
-    public const int WordsCountFieldNumber = 2;
+    public const int WordsCountFieldNumber = 1;
     private int wordsCount_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int WordsCount {
@@ -466,7 +463,6 @@ namespace Count {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (HasResult != other.HasResult) return false;
       if (WordsCount != other.WordsCount) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -474,7 +470,6 @@ namespace Count {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (HasResult != false) hash ^= HasResult.GetHashCode();
       if (WordsCount != 0) hash ^= WordsCount.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -492,12 +487,8 @@ namespace Count {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (HasResult != false) {
-        output.WriteRawTag(8);
-        output.WriteBool(HasResult);
-      }
       if (WordsCount != 0) {
-        output.WriteRawTag(16);
+        output.WriteRawTag(8);
         output.WriteInt32(WordsCount);
       }
       if (_unknownFields != null) {
@@ -509,12 +500,8 @@ namespace Count {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (HasResult != false) {
-        output.WriteRawTag(8);
-        output.WriteBool(HasResult);
-      }
       if (WordsCount != 0) {
-        output.WriteRawTag(16);
+        output.WriteRawTag(8);
         output.WriteInt32(WordsCount);
       }
       if (_unknownFields != null) {
@@ -526,9 +513,6 @@ namespace Count {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (HasResult != false) {
-        size += 1 + 1;
-      }
       if (WordsCount != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(WordsCount);
       }
@@ -542,9 +526,6 @@ namespace Count {
     public void MergeFrom(QResult other) {
       if (other == null) {
         return;
-      }
-      if (other.HasResult != false) {
-        HasResult = other.HasResult;
       }
       if (other.WordsCount != 0) {
         WordsCount = other.WordsCount;
@@ -564,10 +545,6 @@ namespace Count {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            HasResult = input.ReadBool();
-            break;
-          }
-          case 16: {
             WordsCount = input.ReadInt32();
             break;
           }
@@ -586,10 +563,6 @@ namespace Count {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            HasResult = input.ReadBool();
-            break;
-          }
-          case 16: {
             WordsCount = input.ReadInt32();
             break;
           }
@@ -600,6 +573,10 @@ namespace Count {
 
   }
 
+  /// <summary>
+  /// Сообщение для передачи задачи на подсчет слов в строке в очередь RabbitMQ
+  /// Поле resultId содержит идентификатор ответа, по которому можно получить результат подсчета, когда он будет доступен
+  /// </summary>
   public sealed partial class QProcessMessage : pb::IMessage<QProcessMessage>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -808,6 +785,10 @@ namespace Count {
 
   }
 
+  /// <summary>
+  /// Сообщение для возвращения результатов подсчета слов в строке в очередь RabbitMQ
+  /// Поле resultId содержит идентификатор ответа, по которому можно получить результат подсчета, когда он будет доступен
+  /// </summary>
   public sealed partial class QResultMessage : pb::IMessage<QResultMessage>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage

@@ -15,6 +15,9 @@
 # необходимо из текущей папки выполнить команду:
 # python -m grpc_tools.protoc -I..\pkg\proto\count \
 #        --python_out=. --grpc_python_out=. ..\pkg\proto\count\count.proto
+#
+# Запуск:
+# python client.py
 
 # Подключаем сгенерированные gRPC-библиотеки
 import count_pb2_grpc
@@ -49,11 +52,19 @@ def submitRequest(sentence, stub):
     # Пока не получим обработанный результат, раз в секунду
     # передаем серверу идентификатор ответа при вызове QueueGetResult 
     # и проверяем, обработан он, или нет
-    while hasResult == False:
+    while True:
         time.sleep(1)
-        result = stub.QueueGetResult(resp)
-        hasResult = result.hasResult
-        count = result.wordsCount
+        try:
+            result = stub.QueueGetResult(resp)
+        except grpc.RpcError as e:
+            # Обработка еще не завершена
+            # print(e.code())
+            continue
+        else:
+            print(grpc.StatusCode.OK)
+            #hasResult = result.hasResult
+            count = result.wordsCount
+            break
 
     # Как только обработка завершилась - печатаем результат
     print(sentence + ": " + str(count))

@@ -18,7 +18,14 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CountClient interface {
+	// Подсчитать число слов в строке.
+	// Возвращает идентификатор ответа, по кторому можно в дальнейшем получить результат,
+	// вызвав процедуру QueueGetResult
 	QueueProcess(ctx context.Context, in *QRequest, opts ...grpc.CallOption) (*QResultId, error)
+	// Получить результат подсчета слов в строке.
+	// Для получения результата необходимо передать идентификатор ответа,
+	// полученный в результате вызова процедуры QueueProcess.
+	// Если результат недоступен, то возвращается gRPC Status NOT FOUND
 	QueueGetResult(ctx context.Context, in *QResultId, opts ...grpc.CallOption) (*QResult, error)
 }
 
@@ -52,7 +59,14 @@ func (c *countClient) QueueGetResult(ctx context.Context, in *QResultId, opts ..
 // All implementations must embed UnimplementedCountServer
 // for forward compatibility
 type CountServer interface {
+	// Подсчитать число слов в строке.
+	// Возвращает идентификатор ответа, по кторому можно в дальнейшем получить результат,
+	// вызвав процедуру QueueGetResult
 	QueueProcess(context.Context, *QRequest) (*QResultId, error)
+	// Получить результат подсчета слов в строке.
+	// Для получения результата необходимо передать идентификатор ответа,
+	// полученный в результате вызова процедуры QueueProcess.
+	// Если результат недоступен, то возвращается gRPC Status NOT FOUND
 	QueueGetResult(context.Context, *QResultId) (*QResult, error)
 	mustEmbedUnimplementedCountServer()
 }

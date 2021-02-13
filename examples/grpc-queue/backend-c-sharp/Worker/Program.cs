@@ -13,8 +13,11 @@
 //      dotnet add package Grpc.Tools
 //      dotnet add package Google.Protobuf
 //      dotnet restore
-//  3. Для сборки сериализатора/десериализатора (Count.cs) выполнить команду
+//  3. Для сборки сериализатора/десериализатора (Count.cs) необходимо из текущей папки выполнить команду
 //      protoc -I ../../pkg/proto/count --csharp_out=. ../../pkg/proto/count/count.proto
+//
+// Запуск:
+// dotnet run
 //
 // Дополнительная информация:
 // - Использование protobuf и gRPC в C#: 
