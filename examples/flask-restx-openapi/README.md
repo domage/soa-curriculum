@@ -19,7 +19,6 @@
 - ``pip install virtualenv``
 - ``python -m venv flask-todo``
 - ``virtualenv flask-todo``
-- ``python -m pip install flask``
 - ``python -m flask run``
 
 ### Работа с сервисом
