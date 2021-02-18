@@ -20,6 +20,8 @@
 //         --go_opt=paths=source_relative --go-grpc_out=./count \
 //         --go-grpc_opt=paths=source_relative ../pkg/proto/count/count.proto
 //
+// Запуск: go run main.go
+//
 // Дополнительная информация:
 // - Использование protobuf и gRPC в Go:
 //		https://grpc.io/docs/languages/go/basics/
@@ -40,6 +42,8 @@ import (
 	"github.com/domage/grpc-queue/count"
 	"github.com/streadway/amqp"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 )
 
@@ -91,18 +95,17 @@ func (s *server) QueueGetResult(ctx context.Context, request *count.QResultId) (
 
 	// По-умолчанию считаем, что результата еще нет
 	res := count.QResult{}
-	res.HasResult = false
 
 	// Если мы уже получили результат обработки и сохранили его в локальном словаре
 	if val, ok := responses[request.ResultId]; ok {
 		// Наполняем структуру результатом обработки
 		res.WordsCount = val.WordsCount
-		// Устанавливаем флаг корректного результата
-		res.HasResult = true
 		log.Println(fmt.Sprintf("Return result: %d", val.WordsCount))
+		return &res, nil
 	}
 
-	return &res, nil
+	// Если ответ не готов, то возвращаем пустую структуру со статусом "Идентификатор не найден"
+	return &res, status.Error(codes.NotFound, "ResultId was not found")
 }
 
 // Подключение к очереди сообщений RabbitMQ и создание канала для взаимодействия с ней.

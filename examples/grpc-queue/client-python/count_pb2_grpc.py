@@ -6,7 +6,8 @@ import count_pb2 as count__pb2
 
 
 class CountStub(object):
-    """Missing associated documentation comment in .proto file."""
+    """Конечные точки асинхронного веб-сервиса
+    """
 
     def __init__(self, channel):
         """Constructor.
@@ -27,16 +28,24 @@ class CountStub(object):
 
 
 class CountServicer(object):
-    """Missing associated documentation comment in .proto file."""
+    """Конечные точки асинхронного веб-сервиса
+    """
 
     def QueueProcess(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Подсчитать число слов в строке.
+        Возвращает идентификатор ответа, по кторому можно в дальнейшем получить результат,
+        вызвав процедуру QueueGetResult 
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def QueueGetResult(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Получить результат подсчета слов в строке.
+        Для получения результата необходимо передать идентификатор ответа,
+        полученный в результате вызова процедуры QueueProcess.
+        Если результат недоступен, то возвращается gRPC Status NOT FOUND 
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -62,7 +71,8 @@ def add_CountServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class Count(object):
-    """Missing associated documentation comment in .proto file."""
+    """Конечные точки асинхронного веб-сервиса
+    """
 
     @staticmethod
     def QueueProcess(request,
