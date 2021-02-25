@@ -1,0 +1,17 @@
+{
+  "name": "gql-subs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/federation": "^0.21.0",
+    "apollo-server": "^2.21.0",
+    "graphql": "^15.5.0",
+    "subscriptions-transport-ws": "^0.9.18"
+  }
+}
