@@ -21,8 +21,8 @@ class Client:
                 break
             except ():
                 print("Couldn't connect to server...")
-        
-        chunk_size = 1024
+
+        chunk_size = 512
         audio_format = pyaudio.paInt16
         channels = 1
         rate = 20000
@@ -39,7 +39,7 @@ class Client:
     def receive_server_data(self):
         while self.connected:
             try:
-                data, addr = self.s.recvfrom(2049)
+                data, addr = self.s.recvfrom(1025)
                 message = Protocol(datapacket=data)
                 if message.DataType == DataType.ClientData:
                     self.playing_stream.write(message.data)
@@ -53,7 +53,7 @@ class Client:
         message = Protocol(dataType=DataType.Handshake, data=self.name.encode(encoding='UTF-8'))
         self.s.sendto(message.out(), self.server)
 
-        data, addr = self.s.recvfrom(2049)
+        data, addr = self.s.recvfrom(1025)
         datapack = Protocol(datapacket=data)
 
         if (addr==self.server and datapack.DataType==DataType.Handshake and 
@@ -65,7 +65,7 @@ class Client:
     def send_data_to_server(self):
         while self.connected:
             try:
-                data = self.recording_stream.read(1024)
+                data = self.recording_stream.read(512)
                 message = Protocol(dataType=DataType.ClientData, data=data)
                 self.s.sendto(message.out(), self.server)
             except:
