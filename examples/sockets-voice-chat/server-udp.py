@@ -29,7 +29,7 @@ class Server:
         
         while True:
             try:
-                data, addr = self.s.recvfrom(4096)
+                data, addr = self.s.recvfrom(1025)
                 message = Protocol(datapacket=data)
                 self.handleMessage(message, addr)
             except socket.timeout:
