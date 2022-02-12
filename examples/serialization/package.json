@@ -9,7 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "avro-js": "^1.11.0",
     "msgpack": "^1.0.3",
+    "protobufjs": "^6.11.2",
     "yaml": "^1.10.0"
   }
 }

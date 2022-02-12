@@ -8,13 +8,13 @@ import (
 func main() {
 	PORT := ":5454"
 
-	s, err := net.ResolveUDPAddr("udp4", PORT)
+	s, err := net.ResolveUDPAddr("udp", PORT)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	connection, err := net.ListenUDP("udp4", s)
+	connection, err := net.ListenUDP("udp", s)
 	if err != nil {
 		fmt.Println(err)
 		return

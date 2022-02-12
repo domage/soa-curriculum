@@ -5,12 +5,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"net"
+	"time"
 )
 
 var PORT = ":5454"
 
 type Test struct {
-	Qwe string
+	Qwe2 int64
+	Qwe3 string
 }
 
 func handler(c net.Conn) {
@@ -30,8 +32,12 @@ func handler(c net.Conn) {
 		err := json.Unmarshal(netData, &input)
 
 		if err == nil {
-			fmt.Print("-> ", input.Qwe)
+			fmt.Println("-> ", input.Qwe2, input.Qwe3)
 		}
+
+		time.Sleep(5 * time.Second)
+
+		fmt.Println("Closing connection")
 	}
 }
 

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net"
+	"time"
 )
 
 var PORT = ":5454"
@@ -21,13 +22,16 @@ func main() {
 	}
 	defer l.Close()
 
-	c, err := l.Accept()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+	// c, err := l.Accept()
 
-	// !!!1
+	// fmt.Println("Client connected")
+
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	return
+	// }
+
+	// // !!!1
 
 	// netData, err := bufio.NewReader(c).ReadString('\n')
 
@@ -39,13 +43,25 @@ func main() {
 	// !!!2
 
 	for {
+		c, err := l.Accept()
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
 		input := Test{}
 
 		netData, err := bufio.NewReader(c).ReadBytes('\n')
+
 		err = json.Unmarshal(netData, &input)
 
+		fmt.Println("Raw string ", string(netData))
 		fmt.Println(err)
-		fmt.Print("-> ", input.Qwe)
+		fmt.Println("-> ", input.Qwe)
 		c.Write([]byte("Message received"))
+
+		time.Sleep(5 * time.Second)
+
+		fmt.Println("Closing connection")
 	}
 }

@@ -1,6 +1,6 @@
 id: 1
-name: Test
-serviceids:
+name: Testäö
+sids:
 - 1
 - 2
 - 3

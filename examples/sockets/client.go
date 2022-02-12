@@ -21,8 +21,9 @@ func main() {
 	}
 
 	// handler(c)
+	// { sensors: [{number: "AA:BB:CC", value: 25.6}] }
 
-	fmt.Fprintf(c, "{\"Qwe\": \"123\"}")
+	fmt.Fprintf(c, "{\"Qwe\": \"123ggg\"}\n")
 
 	c.Close()
 	// fmt.Fprintf(c, "sdfjhdsklfjhs")

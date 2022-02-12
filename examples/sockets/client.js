@@ -3,6 +3,7 @@ var net = require('net');
 var client = new net.Socket();
 client.connect(5454, '127.0.0.1', function() {
 	console.log('Connected');
+
 	client.write(JSON.stringify({
         Qwe: "hello from Node"
     }));

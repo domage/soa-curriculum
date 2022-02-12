@@ -2,8 +2,10 @@ version: '3.7'
 services:
   express:
     image: express-db:latest
+    depends_on:
+      - redis
     volumes:
-      - ./:/usr/src/app
+      - ./src:/usr/src/app/src
     ports:
       - "3000:3000"
   redis:

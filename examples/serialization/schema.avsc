@@ -1,0 +1,25 @@
+{
+    "namespace": "one.panim",
+    "type":	"record",
+    "name": "test",
+    "fields": [
+        { "name": "ID", "type": "int"},
+        { "name": "Name", "type": "string"},
+        { "name": "ServiceIDs", "type": {"type":"array", "items":"int"}},
+        {
+            "name": "Tests",
+            "type": {
+                "type": "array",
+                "items":{
+                    "name": "Qwe",
+                    "type": "record",
+                    "fields":[
+                        {   "name": "Rty",
+                            "type": "string"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
