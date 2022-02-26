@@ -29,11 +29,17 @@ message = '''d = {
 
 setup_pickle    = '%s ; import pickle ; src = pickle.dumps(d, 2)' % message
 setup_json      = '%s ; import json; src = json.dumps(d)' % message
+setup_xml       = '%s ; import plistlib; src = plistlib.dumps(d, fmt=plistlib.FMT_XML)' % message
+setup_msgpack       = '%s ; import msgpack; src = msgpack.dumps(d)' % message
+setup_yaml       = '%s ; import yaml; src = yaml.dump(d)' % message
 
 tests = [
     # (title, setup, enc_test, dec_test)
     ('pickle (native serialization)', 'import pickle; %s' % setup_pickle, 'pickle.dumps(d, 2)', 'pickle.loads(src)'),
     ('json', 'import json; %s' % setup_json, 'json.dumps(d)', 'json.loads(src)'),
+    ('xml', 'import plistlib; %s' % setup_xml, 'plistlib.dumps(d, fmt=plistlib.FMT_XML)', 'plistlib.loads(src, fmt=plistlib.FMT_XML)'),
+    ('msgpack', 'import msgpack; %s' % setup_msgpack, 'msgpack.dumps(d)', 'msgpack.loads(src)'),
+    ('yaml', 'import yaml; %s' % setup_yaml, 'yaml.dump(d)', 'yaml.load(src, Loader=yaml.Loader)'),
 ]
  
 loops = 5000
