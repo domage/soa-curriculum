@@ -10,10 +10,12 @@
 Перед запуском системы, необходимо:
 - Установить [python3](https://www.python.org/download/releases/3.0/), [golang](https://golang.org/dl/) и [.NET SDK (бывший .NET Core)](https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-5.0.102-windows-x64-installer).
 - Установить [protoc](https://developers.google.com/protocol-buffers/docs/downloads).
-- Развернуть на локальной системе экземпляр [RabbitMQ](https://www.rabbitmq.com/). Это можно сделать с использованием docker командой ``docker run -d --hostname my-rabbit -p 5672:5672 --name some-rabbit rabbitmq:3``
+- Развернуть на локальной системе экземпляр [RabbitMQ](https://www.rabbitmq.com/). Это можно сделать с использованием docker командой  
+  ``docker run -d --hostname my-rabbit -p 5672:5672 --name some-rabbit rabbitmq:3``
 
 ### Фронтэнд-сервер
-В директории ``/frontend-go`` выполнить ``go run main.go``
+В директории ``/frontend-go`` выполнить 
+- ``go run main.go``
 
 ### Клиент
 В директории ``/client-python`` выполнить 
