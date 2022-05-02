@@ -1,9 +1,10 @@
 class CommentsController < ApplicationController
+  skip_before_action :verify_authenticity_token
   before_action :set_comment, only: %i[ show edit update destroy ]
 
   # GET /comments or /comments.json
   def index
-    @comments = Comment.all
+    @comments = Comment.where(event_id: params[:event_id])
   end
 
   # GET /comments/1 or /comments/1.json
@@ -22,15 +23,12 @@ class CommentsController < ApplicationController
   # POST /comments or /comments.json
   def create
     @comment = Comment.new(comment_params)
+    @comment.event_id = params[:event_id]
 
-    respond_to do |format|
-      if @comment.save
-        format.html { redirect_to @comment, notice: "Comment was successfully created." }
-        format.json { render :show, status: :created, location: @comment }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
-      end
+    if @comment.save
+      render json: @comment
+    else
+      render json: @comment.errors
     end
   end
 

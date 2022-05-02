@@ -11,8 +11,26 @@ const typeDefs = gql`
     products: [Product]
   }
 
+  input ProductInput {
+    id: ID!
+  }
+
+  input OrderInput {
+    name: String
+    products: [ProductInput]
+  }
+
+  type Message {
+    string: String
+    madeAt: String
+  }
+
   type Query {
     order: Order
+  }
+
+  type Mutation {
+    createOrder(input: OrderInput): Order
   }
 `;
 

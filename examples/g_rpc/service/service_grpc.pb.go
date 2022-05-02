@@ -20,7 +20,9 @@ const _ = grpc.SupportPackageIsVersion7
 type GreeterClient interface {
 	// Sends a greeting
 	SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error)
-	SayAnotherHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error)
+	Calculate(ctx context.Context, in *CalculateRequest, opts ...grpc.CallOption) (*CalculateReply, error)
+	CalculateHistory(ctx context.Context, in *CalculateRequest, opts ...grpc.CallOption) (*CalculateEntities, error)
+	CalculateHistoryStream(ctx context.Context, in *CalculateRequest, opts ...grpc.CallOption) (Greeter_CalculateHistoryStreamClient, error)
 }
 
 type greeterClient struct {
@@ -40,13 +42,54 @@ func (c *greeterClient) SayHello(ctx context.Context, in *HelloRequest, opts ...
 	return out, nil
 }
 
-func (c *greeterClient) SayAnotherHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error) {
-	out := new(HelloReply)
-	err := c.cc.Invoke(ctx, "/Greeter/SayAnotherHello", in, out, opts...)
+func (c *greeterClient) Calculate(ctx context.Context, in *CalculateRequest, opts ...grpc.CallOption) (*CalculateReply, error) {
+	out := new(CalculateReply)
+	err := c.cc.Invoke(ctx, "/Greeter/Calculate", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
+}
+
+func (c *greeterClient) CalculateHistory(ctx context.Context, in *CalculateRequest, opts ...grpc.CallOption) (*CalculateEntities, error) {
+	out := new(CalculateEntities)
+	err := c.cc.Invoke(ctx, "/Greeter/CalculateHistory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *greeterClient) CalculateHistoryStream(ctx context.Context, in *CalculateRequest, opts ...grpc.CallOption) (Greeter_CalculateHistoryStreamClient, error) {
+	stream, err := c.cc.NewStream(ctx, &Greeter_ServiceDesc.Streams[0], "/Greeter/CalculateHistoryStream", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &greeterCalculateHistoryStreamClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type Greeter_CalculateHistoryStreamClient interface {
+	Recv() (*CalculateEntity, error)
+	grpc.ClientStream
+}
+
+type greeterCalculateHistoryStreamClient struct {
+	grpc.ClientStream
+}
+
+func (x *greeterCalculateHistoryStreamClient) Recv() (*CalculateEntity, error) {
+	m := new(CalculateEntity)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 // GreeterServer is the server API for Greeter service.
@@ -55,7 +98,9 @@ func (c *greeterClient) SayAnotherHello(ctx context.Context, in *HelloRequest, o
 type GreeterServer interface {
 	// Sends a greeting
 	SayHello(context.Context, *HelloRequest) (*HelloReply, error)
-	SayAnotherHello(context.Context, *HelloRequest) (*HelloReply, error)
+	Calculate(context.Context, *CalculateRequest) (*CalculateReply, error)
+	CalculateHistory(context.Context, *CalculateRequest) (*CalculateEntities, error)
+	CalculateHistoryStream(*CalculateRequest, Greeter_CalculateHistoryStreamServer) error
 	mustEmbedUnimplementedGreeterServer()
 }
 
@@ -66,8 +111,14 @@ type UnimplementedGreeterServer struct {
 func (UnimplementedGreeterServer) SayHello(context.Context, *HelloRequest) (*HelloReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
 }
-func (UnimplementedGreeterServer) SayAnotherHello(context.Context, *HelloRequest) (*HelloReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SayAnotherHello not implemented")
+func (UnimplementedGreeterServer) Calculate(context.Context, *CalculateRequest) (*CalculateReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Calculate not implemented")
+}
+func (UnimplementedGreeterServer) CalculateHistory(context.Context, *CalculateRequest) (*CalculateEntities, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CalculateHistory not implemented")
+}
+func (UnimplementedGreeterServer) CalculateHistoryStream(*CalculateRequest, Greeter_CalculateHistoryStreamServer) error {
+	return status.Errorf(codes.Unimplemented, "method CalculateHistoryStream not implemented")
 }
 func (UnimplementedGreeterServer) mustEmbedUnimplementedGreeterServer() {}
 
@@ -100,22 +151,61 @@ func _Greeter_SayHello_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Greeter_SayAnotherHello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(HelloRequest)
+func _Greeter_Calculate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CalculateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GreeterServer).SayAnotherHello(ctx, in)
+		return srv.(GreeterServer).Calculate(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Greeter/SayAnotherHello",
+		FullMethod: "/Greeter/Calculate",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GreeterServer).SayAnotherHello(ctx, req.(*HelloRequest))
+		return srv.(GreeterServer).Calculate(ctx, req.(*CalculateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
+}
+
+func _Greeter_CalculateHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CalculateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GreeterServer).CalculateHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Greeter/CalculateHistory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GreeterServer).CalculateHistory(ctx, req.(*CalculateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Greeter_CalculateHistoryStream_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(CalculateRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(GreeterServer).CalculateHistoryStream(m, &greeterCalculateHistoryStreamServer{stream})
+}
+
+type Greeter_CalculateHistoryStreamServer interface {
+	Send(*CalculateEntity) error
+	grpc.ServerStream
+}
+
+type greeterCalculateHistoryStreamServer struct {
+	grpc.ServerStream
+}
+
+func (x *greeterCalculateHistoryStreamServer) Send(m *CalculateEntity) error {
+	return x.ServerStream.SendMsg(m)
 }
 
 // Greeter_ServiceDesc is the grpc.ServiceDesc for Greeter service.
@@ -130,10 +220,20 @@ var Greeter_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Greeter_SayHello_Handler,
 		},
 		{
-			MethodName: "SayAnotherHello",
-			Handler:    _Greeter_SayAnotherHello_Handler,
+			MethodName: "Calculate",
+			Handler:    _Greeter_Calculate_Handler,
+		},
+		{
+			MethodName: "CalculateHistory",
+			Handler:    _Greeter_CalculateHistory_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "CalculateHistoryStream",
+			Handler:       _Greeter_CalculateHistoryStream_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "service.proto",
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { Button, Input, Spin, message } from "antd";
 
-import { TEST_QUERY, REVERSE, REVERSED_SUBSCRIPTION } from "./gql";
+import { TEST_QUERY, REVERSE, REVERSED_SUBSCRIPTION, TEST_QUERY2 } from "./gql";
 
 const Sub = ({ sub }) => {
   useEffect(() => sub(), []);
@@ -14,7 +14,13 @@ export const StringReserver = () => {
   const [string, setString] = useState("");
 
   const { loading, error, data, subscribeToMore } = useQuery(TEST_QUERY);
+  const { data: strData } = useQuery(TEST_QUERY2, {
+    variables: { string },
+    fetchPolicy: "cache-and-network",
+  });
   const [reverseMutation] = useMutation(REVERSE);
+
+  console.log(strData);
 
   return (
     <div

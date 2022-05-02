@@ -1,0 +1,66 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/events.json":
+    get:
+      summary: list events
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create event
+      responses:
+        '200':
+          description: successful
+  "/events/new":
+    get:
+      summary: new event
+      responses:
+        '200':
+          description: successful
+  "/events/{id}/edit.json":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: edit event
+      responses:
+        '200':
+          description: successful
+  "/events/{id}.json":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show event
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update event
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update event
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete event
+      responses:
+        '200':
+          description: successful
+servers:
+- url: http://localhost:3000

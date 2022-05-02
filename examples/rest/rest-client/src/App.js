@@ -10,7 +10,7 @@ function App() {
   console.log(version);
 
   return (
-    <div className="App">
+    <div className="App" style={{ width: '600px', margin: '0 auto' }}>
       App:
       <EventList version={version} />
       <EventForm onEventCreated={() => setVersion(version + 1)} />

@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { List } from "antd";
+
+import { EventItem } from "./event_item";
 
 export const EventList = (props) => {
   const [appState, setAppState] = useState({
@@ -26,14 +29,14 @@ export const EventList = (props) => {
   return !!appState.loading ? (
     <div>Loading...</div>
   ) : (
-    <div>
-      Events:
-      {(appState.events || []).map((event) => (
-        <div>
-          <b>{event.title}</b>
-          {event.description}
-        </div>
-      ))}
+    <div style={{ width: "600px" }}>
+      <b>Events:</b>
+      <List
+        dataSource={appState.events || []}
+        renderItem={(event) => (
+          <EventItem version={props.version} event={event} />
+        )}
+      />
     </div>
   );
 };

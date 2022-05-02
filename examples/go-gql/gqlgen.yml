@@ -1,0 +1,24 @@
+struct_tag: json
+schema:
+  - schema.graphqls
+omit_slice_element_pointers: false
+models:
+  ID: # graphql type
+    model:
+      - github.com/99designs/gqlgen/graphql.IntID # go type
+      - github.com/99designs/gqlgen/graphql.ID     # other go type
+  User:
+    fields:
+      errors:
+        resolver: true # force a resolver to be generated
+autobind:
+  - "nuuka.com/go-gql/models"
+exec:
+  filename: generated/exec.go
+  package: generated
+model:
+  filename: generated/models.go
+  package: generated
+resolver:
+  filename: generated/resolver.go
+  type: Resolver

@@ -13,6 +13,7 @@ const typeDefs = gql`
 
   type Query {
     test: String
+    string2(str: String): String
   }
 
   type Mutation {

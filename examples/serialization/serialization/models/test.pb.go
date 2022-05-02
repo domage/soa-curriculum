@@ -25,7 +25,7 @@ type Person struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Name       string        `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Name       string        `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" bun:"person_name"`
 	Id         int32         `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
 	ServiceIds []int32       `protobuf:"varint,3,rep,packed,name=service_ids,json=serviceIds,proto3" json:"service_ids,omitempty"`
 	Qwe        []*Person_Qwe `protobuf:"bytes,4,rep,name=qwe,proto3" json:"qwe,omitempty"`

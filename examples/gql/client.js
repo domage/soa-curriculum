@@ -5,7 +5,7 @@ const { TEST_QUERY, REVERSE_MUTATION } = require('./gql');
 
 const cache = new InMemoryCache();
 const link = createHttpLink({
-  uri: 'http://localhost:4000/',
+  uri: 'http://localhost:4000/graphql',
   fetch
 });
 
@@ -20,6 +20,7 @@ const run = async () => {
         query: TEST_QUERY
     });
 
+    console.log(TEST_QUERY);
     console.log(res);
 
     const res2 = await client.mutate({

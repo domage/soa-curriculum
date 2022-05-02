@@ -3,7 +3,7 @@ syntax = "proto3"; // defaults to proto2
 option go_package = "serialization/models";
 
 message Person {
-  string name = 1;
+  optional string name = 1;
   int32 id = 2;
 
   repeated int32 service_ids = 3;

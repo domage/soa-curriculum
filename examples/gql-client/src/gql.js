@@ -6,6 +6,12 @@ export const TEST_QUERY = gql`
     }
 `;
 
+export const TEST_QUERY2 = gql`
+    query test($str: String) {
+        string2(str: $str)
+    }
+`;
+
 export const REVERSE = gql`
     mutation reverse($str: String!) {
         reverse(str: $str) {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Button, Form, Input } from "antd";
 
 export const EventForm = (props) => {
   const [title, setTitle] = useState("");
@@ -33,15 +34,25 @@ export const EventForm = (props) => {
   };
 
   return (
-    <div>
+    <Form
+      style={{ width: "600px" }}
+      labelCol={{ span: 8 }}
+      wrapperCol={{ span: 16 }}
+    >
       Event creation form:
       <br />
-      <input value={title} onChange={(e) => setTitle(e.target.value)} />
-      <input
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
-      <button onClick={createEvent}>Create</button>
-    </div>
+      <Form.Item label="Event title" wrapperCol={{ offset: 8, span: 16 }}>
+        <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+      </Form.Item>
+      <Form.Item label="Event description" wrapperCol={{ offset: 8, span: 16 }}>
+        <Input
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+      </Form.Item>
+      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <Button onClick={createEvent}>Create</Button>
+      </Form.Item>
+    </Form>
   );
 };

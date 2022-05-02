@@ -1,0 +1,20 @@
+type Message {
+  string: String
+  madeAt: String
+}
+
+type User {
+  id: ID!
+  firstName: String
+  lastName: String
+  linkedUsers: [User]
+}
+
+type Query {
+  test: String
+  user(id: ID!): User
+}
+
+type Mutation {
+  reverse(str: String!): Message
+}

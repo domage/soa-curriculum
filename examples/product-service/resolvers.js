@@ -14,12 +14,16 @@ const product = {
 
 const resolvers = {
   Product: {
-    __resolveReference(user, { fetchUserById }) {
+    __resolveReference(user, params) {
+      console.log(user, params);
       return product;
     },
   },
   Query: {
     product: () => product,
+    productsByOrder: async (root, { orderID }, { fetchProductsByOrder }) => {
+      return [product];
+    }
   },
   Mutation: {
     reverse: async (_, { str }) => {
