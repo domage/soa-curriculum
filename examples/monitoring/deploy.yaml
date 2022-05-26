@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: monitoring
+  labels:
+    app: monitoring
+spec:
+  type: ClusterIP
+  selector:
+    app: monitoring
+  ports:
+    - protocol: TCP
+      name: http
+      port: 2112
+      targetPort: 2112
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: monitoring
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: monitoring
+    spec:
+      containers:
+        - name: monitoring
+          image: cr.yandex/crpkm2iuoqei95gkbii8/monitoring:latest
+          imagePullPolicy: "Always"
+          env:
+            - name: LOKI_URL
+              value: "http://loki:3100"
+            - name: PROMETHEUS_URL
+              value: "http://loki-prometheus-pushgateway:9091"

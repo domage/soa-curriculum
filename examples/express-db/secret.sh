@@ -1,0 +1,1 @@
+kubectl create secret generic secret --from-literal=value="TOP@SECRET"

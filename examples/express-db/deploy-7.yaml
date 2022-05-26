@@ -1,0 +1,122 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: express
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: express.k8s-example-2022.org
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: express
+            port:
+              number: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: express
+spec:
+  selector:
+    app: express
+  ports:
+    - port: 4000
+      targetPort: 4000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  labels:
+    app: redis
+spec:
+  type: ClusterIP
+  selector:
+    app: redis
+  ports:
+    - protocol: TCP
+      name: http
+      port: 6379
+      targetPort: 6379
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-headless
+  labels:
+    app: redis-headless
+spec:
+  ports:
+  - port: 6379
+    name: web
+  clusterIP: None
+  selector:
+    app: redis
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis
+  labels:
+    app: redis
+spec:
+  serviceName: redis-headless
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:latest
+        volumeMounts:
+        - mountPath: "/data"
+          name: redis-pvc
+      volumes:
+      - name: redis-pvc
+        persistentVolumeClaim:
+          claimName: redis-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: express
+  labels:
+    app: express
+spec:
+  selector:
+    matchLabels:
+      app: express
+  template:
+    metadata:
+      labels:
+        app: express
+    spec:
+      initContainers:
+      - name: wait-for-redis
+        image: goodsmileduck/redis-cli
+        imagePullPolicy: IfNotPresent
+        args: [ 'sh', '-c', 'until redis-cli -h redis -p 6379  get hello; do echo "Sleeping a bit"; sleep 1; done; echo "ready!"; ' ]  
+      containers:
+      - name: express
+        image: cr.yandex/crpkm2iuoqei95gkbii8/express-db:latest
+        imagePullPolicy: Always # !!!
+        env:
+        - name: REDIS_HOST
+          value: "redis"
+        - name: PORT
+          value: "4000"
+        - name: SECRET
+          valueFrom:
+            secretKeyRef:
+              name: secret
+              key: value

@@ -1,0 +1,8 @@
+FROM node:12.17.0-slim
+EXPOSE 3000
+
+WORKDIR /usr/src/app
+ADD . .
+RUN npm install
+
+CMD ["node", "src/index.js"]

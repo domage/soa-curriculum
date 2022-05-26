@@ -1,0 +1,73 @@
+loki:
+  enabled: true
+  persistence:
+    enabled: true
+    accessModes:
+    - ReadWriteOnce
+    size: 50Gi
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/auth-type: basic
+      nginx.ingress.kubernetes.io/auth-secret: loki-auth
+      nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - loki'
+    hosts:
+      - host: logs.soa-2022.org
+        paths: ["/"]
+
+promtail:
+  enabled: true
+
+fluent-bit:
+  enabled: false
+
+grafana:
+  enabled: true
+  grafana.ini:
+    server:
+      root_url: "https://monitoring.soa-2022.org"
+  persistence:
+    enabled: true
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+    hosts:
+      - monitoring.soa-2022.org
+  sidecar:
+    datasources:
+      enabled: true
+
+prometheus:
+  enabled: true
+  serverFiles:
+    prometheus.yml:
+      rule_files:
+        - /etc/config/recording_rules.yml
+        - /etc/config/alerting_rules.yml
+        - /etc/config/rules
+        - /etc/config/alerts
+      scrape_configs:
+        - job_name: prometheus
+          static_configs:
+            - targets:
+              - localhost:9090
+        - job_name: postgres-exporter
+          static_configs:
+            - targets: ["exporter:9187"]
+        - job_name: monitoring
+          static_configs:
+            - targets: ["monitoring:2112"]
+  pushgateway:
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        nginx.ingress.kubernetes.io/auth-type: basic
+        nginx.ingress.kubernetes.io/auth-secret: loki-auth
+        nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - metrics'
+      hosts:
+        - metrics.soa-2022.org
+      path: /
+      pathType: Prefix

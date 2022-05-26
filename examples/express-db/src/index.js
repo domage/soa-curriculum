@@ -1,26 +1,26 @@
 const express = require('express')
 const Redis = require('ioredis');
 const app = express()
-const port = 3000
 
-// const redis = new Redis({
-//   pkg: 'ioredis',
-//   host: 'redis',
-//   port: 6379,
-//   database: 0
-// });
+const port = Number(process.env.PORT)
+
+const redis = new Redis({
+  pkg: 'ioredis',
+  host: process.env.REDIS_HOST,
+  port: 6379,
+  database: 0
+});
 
 app.get('/', (req, res) => {
-  req.smth = "smth";
-  res.send('Hello World! - Express version!')
+  res.send('Hello World! Secret is ' + process.env.SECRET)
 })
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
 
-// setInterval(async () => {
-//   const values = await redis.get(`qwe`);
+setInterval(async () => {
+  const values = await redis.get(`qwe`);
 
-//   console.log('Values from redis: ', values);
-// }, 1000);
+  console.log('Values from redis: ', values);
+}, 1000);

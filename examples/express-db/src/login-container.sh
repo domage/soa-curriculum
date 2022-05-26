@@ -1,0 +1,1 @@
+kubectl exec --stdin --tty redis-659449ffbd-p4x9h -- /bin/bash
